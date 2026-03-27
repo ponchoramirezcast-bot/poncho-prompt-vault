@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PONCHO RECORDS — Suno Prompt Vault</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#000000;
+  --bg1:#080808;
+  --bg2:#0f0f0f;
+  --bg3:#161616;
+  --bg4:#1e1e1e;
+  --green:#39ff6e;
+  --green-dim:#1a7a35;
+  --green-glow:rgba(57,255,110,0.12);
+  --white:#f5f2eb;
+  --muted:#555550;
+  --muted2:#888880;
+  --border:rgba(255,255,255,0.06);
+  --border2:rgba(255,255,255,0.12);
+  --font-display:'Bebas Neue',sans-serif;
+  --font-mono:'Share Tech Mono',monospace;
+  --font-body:'Inter',sans-serif;
+  --red:#ff3b3b;
+  --amber:#ffb830;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:var(--font-body);
+  min-height:100vh;
+  overflow-x:hidden;
+  cursor:default;
+}
+
+/* SCANLINE OVERLAY */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events:none;
+  z-index:9999;
+}
+
+/* NAV */
+nav{
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 2.5rem;
+  height:60px;
+  background:rgba(0,0,0,0.92);
+  border-bottom:1px solid var(--border2);
+  backdrop-filter:blur(10px);
+}
+
+.nav-logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+}
+
+.nav-record{
+  width:30px;height:30px;
+  border-radius:50%;
+  border:2px solid var(--green);
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+  animation:spin 8s linear infinite;
+}
+
+.nav-record::after{
+  content:'';
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--green);
+  position:absolute;
+}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.nav-brand{
+  font-family:var(--font-display);
+  font-size:18px;
+  letter-spacing:0.08em;
+  color:var(--white);
+  line-height:1;
+}
+
+.nav-sub{
+  font-family:var(--font-mono);
+  font-size:8px;
+  color:var(--green);
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.nav-link{
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--muted2);
+  text-decoration:none;
+  padding:6px 12px;
+  border-radius:3px;
+  letter-spacing:0.06em;
+  transition:all 0.15s;
+  background:transparent;
+  border:none;
+  cursor:pointer;
+  text-transform:uppercase;
+}
+
+.nav-link:hover{color:var(--green);}
+
+.btn-nav-primary{
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  padding:8px 18px;
+  background:transparent;
+  border:1px solid var(--green);
+  color:var(--green);
+  border-radius:2px;
+  cursor:pointer;
+  transition:all 0.15s;
+}
+
+.btn-nav-primary:hover{
+  background:var(--green);
+  color:#000;
+  box-shadow:0 0 20px var(--green-glow);
+}
+
+/* HERO SECTION */
+.hero{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  padding-top:60px;
+  text-align:center;
+}
+
+.hero-eyebrow{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:0.25em;
+  color:var(--green);
+  text-transform:uppercase;
+  margin-bottom:2rem;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.hero-eyebrow::before,.hero-eyebrow::after{
+  content:'';
+  display:block;
+  height:1px;
+  width:40px;
+  background:var(--green);
+  opacity:0.6;
+}
+
+.hero-title{
+  font-family:var(--font-display);
+  font-size:clamp(64px,10vw,130px);
+  letter-spacing:0.02em;
+  line-height:0.9;
+  margin-bottom:0.5rem;
+  color:var(--white);
+}
+
+.hero-title span{
+  color:var(--green);
+  display:block;
+}
+
+.hero-subtitle{
+  font-family:var(--font-mono);
+  font-size:13px;
+  color:var(--muted2);
+  letter-spacing:0.12em;
+  margin-bottom:3rem;
+  text-transform:uppercase;
+}
+
+.hero-stats{
+  display:flex;
+  align-items:center;
+  gap:2.5rem;
+  margin-bottom:3rem;
+}
+
+.hero-stat{
+  text-align:center;
+}
+
+.hero-stat-num{
+  font-family:var(--font-display);
+  font-size:42px;
+  letter-spacing:0.05em;
+  color:var(--green);
+  line-height:1;
+  display:block;
+}
+
+.hero-stat-label{
+  font-family:var(--font-mono);
+  font-size:9px;
+  color:var(--muted2);
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+}
+
+.hero-stat-div{
+  width:1px;height:40px;
+  background:var(--border2);
+}
+
+.hero-actions{
+  display:flex;gap:12px;flex-wrap:wrap;justify-content:center;
+}
+
+.btn-primary{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  padding:14px 32px;
+  background:var(--green);
+  color:#000;
+  border:none;
+  border-radius:2px;
+  cursor:pointer;
+  font-weight:700;
+  transition:all 0.15s;
+}
+
+.btn-primary:hover{box-shadow:0 0 30px rgba(57,255,110,0.4);transform:translateY(-1px);}
+
+.btn-secondary{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  padding:14px 32px;
+  background:transparent;
+  color:var(--white);
+  border:1px solid var(--border2);
+  border-radius:2px;
+  cursor:pointer;
+  transition:all 0.15s;
+}
+
+.btn-secondary:hover{border-color:var(--white);background:rgba(255,255,255,0.04);}
+
+.hero-scroll{
+  position:absolute;
+  bottom:2rem;left:50%;transform:translateX(-50%);
+  font-family:var(--font-mono);
+  font-size:9px;
+  color:var(--muted);
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+
+.hero-scroll-line{
+  width:1px;height:40px;
+  background:linear-gradient(to bottom,var(--green),transparent);
+  animation:scrollLine 2s ease-in-out infinite;
+}
+
+@keyframes scrollLine{
+  0%,100%{opacity:0.4;transform:scaleY(1)}
+  50%{opacity:1;transform:scaleY(1.2)}
+}
+
+/* SECTION COMMONS */
+section{
+  padding:6rem 2.5rem;
+  max-width:1280px;
+  margin:0 auto;
+}
+
+.section-comment{
+  font-family:var(--font-mono);
+  font-size:10px;
+  color:var(--green-dim);
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  margin-bottom:0.75rem;
+}
+
+.section-title{
+  font-family:var(--font-display);
+  font-size:clamp(36px,5vw,64px);
+  letter-spacing:0.04em;
+  line-height:1;
+  margin-bottom:3rem;
+  color:var(--white);
+}
+
+.section-divider{
+  width:100%;
+  height:1px;
+  background:var(--border);
+  margin:0;
+}
+
+/* MAIN APP LAYOUT */
+.vault-layout{
+  display:grid;
+  grid-template-columns:260px 1fr;
+  gap:0;
+  background:var(--bg1);
+  border:1px solid var(--border);
+  border-radius:4px;
+  overflow:hidden;
+  min-height:70vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+  background:var(--bg2);
+  border-right:1px solid var(--border);
+  padding:1.5rem 0;
+  overflow-y:auto;
+}
+
+.sidebar-header{
+  padding:0 1.25rem 1rem;
+  border-bottom:1px solid var(--border);
+  margin-bottom:1rem;
+}
+
+.sidebar-title{
+  font-family:var(--font-mono);
+  font-size:9px;
+  letter-spacing:0.25em;
+  color:var(--green);
+  text-transform:uppercase;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.sidebar-title::before{
+  content:'//';
+  color:var(--muted);
+}
+
+.genre-list{padding:0 0.75rem;}
+
+.genre-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 10px;
+  border-radius:2px;
+  cursor:pointer;
+  transition:all 0.12s;
+  margin-bottom:1px;
+  border:1px solid transparent;
+  position:relative;
+}
+
+.genre-item:hover{background:var(--bg3);border-color:var(--border);}
+
+.genre-item.active{
+  background:var(--bg4);
+  border-color:var(--green-dim);
+}
+
+.genre-item.active .genre-name{color:var(--green);}
+.genre-item.active::before{
+  content:'';
+  position:absolute;left:0;top:0;bottom:0;
+  width:2px;background:var(--green);
+}
+
+.genre-dot{
+  width:6px;height:6px;
+  border-radius:50%;
+  flex-shrink:0;
+}
+
+.genre-name{
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--muted2);
+  flex:1;
+  letter-spacing:0.04em;
+}
+
+.genre-count{
+  font-family:var(--font-mono);
+  font-size:9px;
+  color:var(--muted);
+  background:var(--bg4);
+  padding:2px 6px;
+  border-radius:2px;
+  min-width:20px;
+  text-align:center;
+}
+
+.sidebar-add{
+  margin:1rem 0.75rem 0;
+}
+
+.add-genre-btn{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px;
+  background:transparent;
+  border:1px dashed var(--border2);
+  border-radius:2px;
+  color:var(--muted);
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all 0.15s;
+}
+
+.add-genre-btn:hover{
+  border-color:var(--green);
+  color:var(--green);
+  background:var(--green-glow);
+}
+
+/* MAIN PANEL */
+.main-panel{
+  display:flex;
+  flex-direction:column;
+  background:var(--bg1);
+}
+
+.panel-header{
+  padding:1.25rem 1.75rem;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  flex-wrap:wrap;
+  background:var(--bg2);
+}
+
+.panel-title-group{}
+
+.panel-comment{
+  font-family:var(--font-mono);
+  font-size:9px;
+  color:var(--green-dim);
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+}
+
+.panel-title{
+  font-family:var(--font-display);
+  font-size:32px;
+  letter-spacing:0.06em;
+  color:var(--white);
+  line-height:1;
+}
+
+.search-wrap{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:var(--bg3);
+  border:1px solid var(--border2);
+  border-radius:2px;
+  padding:9px 14px;
+  min-width:220px;
+}
+
+.search-wrap:focus-within{border-color:var(--green);}
+
+.search-icon{
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--muted);
+}
+
+.search-wrap input{
+  background:transparent;
+  border:none;
+  outline:none;
+  color:var(--white);
+  font-family:var(--font-mono);
+  font-size:11px;
+  width:100%;
+  letter-spacing:0.05em;
+}
+
+.search-wrap input::placeholder{color:var(--muted);}
+
+/* STATS ROW */
+.stats-row{
+  padding:0.75rem 1.75rem;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  gap:1.5rem;
+  background:var(--bg2);
+}
+
+.stat-chip{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.stat-chip-num{
+  font-family:var(--font-display);
+  font-size:22px;
+  color:var(--green);
+  line-height:1;
+  letter-spacing:0.05em;
+}
+
+.stat-chip-label{
+  font-family:var(--font-mono);
+  font-size:9px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:0.15em;
+  line-height:1.3;
+}
+
+.stat-sep{width:1px;height:24px;background:var(--border2);}
+
+/* STATUS DOT */
+.status-online{
+  display:flex;align-items:center;gap:6px;
+  font-family:var(--font-mono);
+  font-size:9px;
+  color:var(--green);
+  letter-spacing:0.15em;
+  margin-left:auto;
+}
+
+.dot-pulse{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--green);
+  animation:pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse{
+  0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(57,255,110,0.4)}
+  50%{opacity:0.7;box-shadow:0 0 0 5px transparent}
+}
+
+/* PROMPT GRID */
+.prompt-grid{
+  padding:1.5rem 1.75rem;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:1px;
+  background:var(--border);
+  flex:1;
+}
+
+/* CARD */
+.prompt-card{
+  background:var(--bg1);
+  padding:1.25rem;
+  cursor:pointer;
+  transition:background 0.12s;
+  position:relative;
+  overflow:hidden;
+}
+
+.prompt-card::after{
+  content:'';
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:2px;
+  background:var(--card-color,var(--green));
+  opacity:0;
+  transition:opacity 0.15s;
+}
+
+.prompt-card:hover{background:var(--bg2);}
+.prompt-card:hover::after{opacity:1;}
+
+.card-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:10px;
+}
+
+.card-title{
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--white);
+  letter-spacing:0.06em;
+  line-height:1.4;
+  flex:1;
+}
+
+.card-badge{
+  font-family:var(--font-mono);
+  font-size:8px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  padding:3px 8px;
+  border-radius:1px;
+  white-space:nowrap;
+  flex-shrink:0;
+  border:1px solid;
+}
+
+.card-prompt{
+  font-family:var(--font-mono);
+  font-size:10px;
+  color:var(--muted2);
+  line-height:1.65;
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  background:var(--bg3);
+  padding:10px;
+  border-radius:1px;
+  margin-bottom:10px;
+  border-left:2px solid var(--border2);
+}
+
+.card-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+
+.card-tags{display:flex;gap:4px;flex-wrap:wrap;flex:1;}
+
+.tag{
+  font-family:var(--font-mono);
+  font-size:8px;
+  color:var(--muted);
+  background:var(--bg3);
+  padding:2px 7px;
+  border-radius:1px;
+  border:1px solid var(--border);
+  letter-spacing:0.06em;
+}
+
+.card-copy-btn{
+  width:26px;height:26px;
+  border-radius:2px;
+  border:1px solid var(--border2);
+  background:transparent;
+  color:var(--muted2);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);
+  font-size:11px;
+  transition:all 0.12s;
+  flex-shrink:0;
+}
+
+.card-copy-btn:hover{
+  border-color:var(--green);
+  color:var(--green);
+  background:var(--green-glow);
+}
+
+/* EMPTY */
+.empty-state{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:5rem 2rem;
+  color:var(--muted);
+  text-align:center;
+  grid-column:1/-1;
+}
+
+.empty-icon{
+  font-family:var(--font-display);
+  font-size:64px;
+  color:var(--border2);
+  margin-bottom:1rem;
+  line-height:1;
+}
+
+.empty-label{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+
+.empty-sub{
+  font-family:var(--font-mono);
+  font-size:10px;
+  color:var(--muted);
+  opacity:0.6;
+}
+
+/* MODALS */
+.overlay{
+  display:none;
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0.88);
+  z-index:500;
+  align-items:center;
+  justify-content:center;
+  padding:1rem;
+  backdrop-filter:blur(4px);
+}
+
+.overlay.open{display:flex;}
+
+.modal{
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  border-radius:2px;
+  padding:0;
+  width:100%;
+  max-width:540px;
+  max-height:92vh;
+  overflow-y:auto;
+}
+
+.modal-head{
+  padding:1.5rem;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:1rem;
+  background:var(--bg3);
+}
+
+.modal-comment{
+  font-family:var(--font-mono);
+  font-size:9px;
+  color:var(--green);
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+}
+
+.modal-title{
+  font-family:var(--font-display);
+  font-size:28px;
+  letter-spacing:0.06em;
+  color:var(--white);
+}
+
+.modal-close{
+  background:transparent;
+  border:1px solid var(--border2);
+  color:var(--muted2);
+  cursor:pointer;
+  font-size:14px;
+  padding:6px 10px;
+  border-radius:2px;
+  transition:all 0.12s;
+  font-family:var(--font-mono);
+  flex-shrink:0;
+}
+
+.modal-close:hover{border-color:var(--red);color:var(--red);}
+
+.modal-body{padding:1.5rem;}
+
+.fgroup{margin-bottom:1.25rem;}
+
+.flabel{
+  display:block;
+  font-family:var(--font-mono);
+  font-size:9px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--green-dim);
+  margin-bottom:7px;
+}
+
+.finput,.fselect,.ftextarea{
+  width:100%;
+  background:var(--bg3);
+  border:1px solid var(--border2);
+  border-radius:2px;
+  padding:10px 13px;
+  color:var(--white);
+  font-family:var(--font-mono);
+  font-size:11px;
+  outline:none;
+  transition:border-color 0.12s;
+  letter-spacing:0.04em;
+}
+
+.finput:focus,.fselect:focus,.ftextarea:focus{
+  border-color:var(--green);
+}
+
+.fselect option{background:var(--bg3);color:var(--white);}
+
+.ftextarea{
+  min-height:110px;
+  resize:vertical;
+  line-height:1.65;
+}
+
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+.ftags-wrap{
+  display:flex;flex-wrap:wrap;gap:6px;
+  background:var(--bg3);
+  border:1px solid var(--border2);
+  border-radius:2px;
+  padding:8px;
+  min-height:44px;
+  cursor:text;
+  transition:border-color 0.12s;
+}
+
+.ftags-wrap:focus-within{border-color:var(--green);}
+
+.ftags-wrap input{
+  background:transparent;border:none;outline:none;
+  color:var(--white);
+  font-family:var(--font-mono);
+  font-size:11px;
+  flex:1;min-width:80px;
+  letter-spacing:0.04em;
+}
+
+.ftag{
+  background:var(--bg4);
+  border:1px solid var(--border2);
+  border-radius:1px;
+  padding:2px 8px;
+  font-family:var(--font-mono);
+  font-size:9px;
+  color:var(--muted2);
+  display:flex;align-items:center;gap:5px;
+  letter-spacing:0.06em;
+}
+
+.ftag button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:10px;line-height:1;padding:0;}
+.ftag button:hover{color:var(--red);}
+
+.modal-foot{
+  padding:1rem 1.5rem;
+  border-top:1px solid var(--border);
+  display:flex;gap:10px;justify-content:flex-end;
+  background:var(--bg3);
+}
+
+.btn-modal{
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  padding:10px 22px;
+  border-radius:2px;
+  cursor:pointer;
+  transition:all 0.15s;
+  border:1px solid var(--border2);
+  background:transparent;
+  color:var(--muted2);
+}
+
+.btn-modal:hover{border-color:var(--white);color:var(--white);}
+
+.btn-modal-primary{
+  background:var(--green);
+  border-color:var(--green);
+  color:#000;
+  font-weight:700;
+}
+
+.btn-modal-primary:hover{
+  box-shadow:0 0 20px rgba(57,255,110,0.35);
+  color:#000;
+}
+
+.btn-modal-danger{
+  border-color:var(--red);
+  color:var(--red);
+}
+
+.btn-modal-danger:hover{background:rgba(255,59,59,0.1);}
+
+/* COLORS */
+.color-grid{display:flex;gap:10px;flex-wrap:wrap;}
+
+.cswatch{
+  width:30px;height:30px;
+  border-radius:50%;
+  cursor:pointer;
+  border:2px solid transparent;
+  transition:all 0.12s;
+}
+
+.cswatch.active,.cswatch:hover{
+  border-color:var(--white);
+  transform:scale(1.15);
+}
+
+/* VIEW MODAL */
+.view-prompt-box{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-left:2px solid var(--green);
+  border-radius:2px;
+  padding:1rem;
+  font-family:var(--font-mono);
+  font-size:11px;
+  line-height:1.7;
+  color:var(--white);
+  white-space:pre-wrap;
+  word-break:break-word;
+  margin-bottom:1rem;
+  max-height:280px;
+  overflow-y:auto;
+  letter-spacing:0.03em;
+}
+
+.view-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;}
+
+.vtag{
+  font-family:var(--font-mono);
+  font-size:9px;
+  padding:3px 10px;
+  border-radius:1px;
+  border:1px solid var(--border2);
+  color:var(--muted2);
+  letter-spacing:0.08em;
+}
+
+.suno-btn{
+  width:100%;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:13px;
+  background:transparent;
+  border:1px solid var(--green);
+  border-radius:2px;
+  color:var(--green);
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all 0.15s;
+  font-weight:700;
+}
+
+.suno-btn:hover{
+  background:var(--green);
+  color:#000;
+  box-shadow:0 0 25px rgba(57,255,110,0.3);
+}
+
+/* TOAST */
+.toast{
+  position:fixed;
+  bottom:2rem;right:2rem;
+  background:var(--green);
+  color:#000;
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  font-weight:700;
+  padding:12px 22px;
+  border-radius:2px;
+  z-index:9998;
+  transform:translateY(80px);
+  opacity:0;
+  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.toast.show{transform:translateY(0);opacity:1;}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--border);
+  padding:2rem 2.5rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--bg2);
+}
+
+.footer-brand{
+  font-family:var(--font-display);
+  font-size:16px;
+  letter-spacing:0.12em;
+  color:var(--muted2);
+}
+
+.footer-meta{
+  font-family:var(--font-mono);
+  font-size:9px;
+  color:var(--muted);
+  letter-spacing:0.12em;
+  text-align:right;
+}
+
+.footer-link{
+  font-family:var(--font-mono);
+  font-size:10px;
+  color:var(--muted2);
+  text-decoration:none;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  border-bottom:1px solid var(--border2);
+  padding-bottom:1px;
+  transition:color 0.12s,border-color 0.12s;
+}
+
+.footer-link:hover{color:var(--green);border-color:var(--green);}
+
+@media(max-width:700px){
+  .vault-layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .prompt-grid{padding:1rem;grid-template-columns:1fr}
+  .frow{grid-template-columns:1fr}
+  nav{padding:0 1rem}
+  section{padding:4rem 1rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="https://ponchoramirezcast-bot.github.io/poncho-records/" target="_blank">
+    <div class="nav-record"></div>
+    <div>
+      <div class="nav-brand">PONCHO.REC</div>
+      <div class="nav-sub">Suno Prompt Vault</div>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="https://ponchoramirezcast-bot.github.io/poncho-records/" target="_blank">← Landing</a>
+    <button class="nav-link" onclick="openGenreModal()">+ Género</button>
+    <button class="btn-nav-primary" onclick="openPromptModal()">+ Nuevo Prompt</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="hero">
+  <div class="hero-eyebrow">Sistema activo · Vault Online</div>
+  <h1 class="hero-title">SUNO<span>PROMPT VAULT</span></h1>
+  <p class="hero-subtitle">// Biblioteca de Prompts · Producción Musical IA</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-num" id="h-prompts">0</span>
+      <span class="hero-stat-label">Prompts</span>
+    </div>
+    <div class="hero-stat-div"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-num" id="h-genres">0</span>
+      <span class="hero-stat-label">Géneros</span>
+    </div>
+    <div class="hero-stat-div"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">∞</span>
+      <span class="hero-stat-label">Posibilidades</span>
+    </div>
+  </div>
+  <div class="hero-actions">
+    <button class="btn-primary" onclick="document.getElementById('vault').scrollIntoView({behavior:'smooth'})">Abrir Vault</button>
+    <button class="btn-secondary" onclick="openPromptModal()">+ Nuevo Prompt</button>
+  </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    Scroll
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- VAULT SECTION -->
+<section id="vault" style="padding-top:4rem;padding-bottom:4rem;max-width:100%;padding-left:2.5rem;padding-right:2.5rem;">
+  <div class="section-comment">// almacén de prompts</div>
+  <h2 class="section-title">VAULT</h2>
+
+  <div class="vault-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title">Géneros</div>
+      </div>
+      <div class="genre-list" id="genre-list"></div>
+      <div class="sidebar-add">
+        <button class="add-genre-btn" onclick="openGenreModal()">
+          <span>+</span> Nueva Categoría
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN PANEL -->
+    <div class="main-panel">
+      <div class="panel-header">
+        <div class="panel-title-group">
+          <div class="panel-comment" id="panel-comment">// todos los géneros</div>
+          <div class="panel-title" id="panel-title">TODOS LOS PROMPTS</div>
+        </div>
+        <div class="search-wrap">
+          <span class="search-icon">_</span>
+          <input type="text" id="search-input" placeholder="buscar prompts..." oninput="renderCards()">
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-chip">
+          <span class="stat-chip-num" id="stat-total">0</span>
+          <span class="stat-chip-label">Prompts<br>Total</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat-chip">
+          <span class="stat-chip-num" id="stat-filtered">0</span>
+          <span class="stat-chip-label">Prompts<br>Visibles</span>
+        </div>
+        <div class="status-online">
+          <div class="dot-pulse"></div>
+          Sistema Activo
+        </div>
+      </div>
+
+      <div class="prompt-grid" id="prompt-grid"></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">PONCHO.REC</div>
+  <div style="display:flex;gap:1.5rem;align-items:center;">
+    <a class="footer-link" href="https://ponchoramirezcast-bot.github.io/poncho-records/" target="_blank">Landing Page</a>
+    <a class="footer-link" href="https://open.spotify.com" target="_blank">Spotify</a>
+  </div>
+  <div class="footer-meta">
+    © 2025 Poncho Records<br>
+    Powered by AI · Suno Vault
+  </div>
+</footer>
+
+<!-- ADD PROMPT MODAL -->
+<div class="overlay" id="prompt-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-comment">// nuevo registro</div>
+        <div class="modal-title">NUEVO PROMPT</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('prompt-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="fgroup">
+        <label class="flabel">Título del Prompt</label>
+        <input class="finput" id="p-title" type="text" placeholder="Ej: Reggaeton oscuro nocturno 2AM...">
+      </div>
+      <div class="fgroup">
+        <label class="flabel">Género Musical</label>
+        <select class="fselect" id="p-genre"></select>
+      </div>
+      <div class="fgroup">
+        <label class="flabel">Prompt para Suno</label>
+        <textarea class="ftextarea" id="p-prompt" placeholder="Describe el estilo, mood, instrumentos, tempo, artistas de referencia, tipo de voz, efectos..."></textarea>
+      </div>
+      <div class="frow">
+        <div class="fgroup">
+          <label class="flabel">Tempo / BPM</label>
+          <input class="finput" id="p-bpm" type="text" placeholder="Ej: 90 BPM, slow">
+        </div>
+        <div class="fgroup">
+          <label class="flabel">Tonalidad</label>
+          <input class="finput" id="p-key" type="text" placeholder="Ej: Am, C major">
+        </div>
+      </div>
+      <div class="fgroup">
+        <label class="flabel">Etiquetas — Enter para agregar</label>
+        <div class="ftags-wrap" id="tags-wrap" onclick="document.getElementById('tag-in').focus()">
+          <input type="text" id="tag-in" placeholder="trap, 808, oscuro..." onkeydown="handleTag(event)">
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-modal" onclick="closeModal('prompt-modal')">Cancelar</button>
+      <button class="btn-modal btn-modal-primary" onclick="savePrompt()">Guardar Prompt</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD GENRE MODAL -->
+<div class="overlay" id="genre-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-comment">// nueva categoría</div>
+        <div class="modal-title">NUEVO GÉNERO</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('genre-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="fgroup">
+        <label class="flabel">Nombre del Género</label>
+        <input class="finput" id="g-name" type="text" placeholder="Ej: Afrobeats, Corridos Tumbados, Hyperpop...">
+      </div>
+      <div class="fgroup">
+        <label class="flabel">Color Identificador</label>
+        <div class="color-grid" id="color-grid"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-modal" onclick="closeModal('genre-modal')">Cancelar</button>
+      <button class="btn-modal btn-modal-primary" onclick="saveGenre()">Crear Género</button>
+    </div>
+  </div>
+</div>
+
+<!-- VIEW PROMPT MODAL -->
+<div class="overlay" id="view-modal">
+  <div class="modal" style="max-width:580px">
+    <div class="modal-head">
+      <div>
+        <div class="modal-comment">// prompt seleccionado</div>
+        <div class="modal-title" id="v-title" style="font-size:20px;line-height:1.2;max-width:400px;">—</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('view-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="view-tags" id="v-tags"></div>
+      <div class="view-prompt-box" id="v-prompt"></div>
+      <button class="suno-btn" onclick="copySuno()">♪ Copiar Prompt para Suno</button>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-modal btn-modal-danger" onclick="deletePrompt()">Eliminar</button>
+      <button class="btn-modal" onclick="closeModal('view-modal')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── DATA ──────────────────────────────────────────
+const COLORS=['#39ff6e','#ff3b3b','#ffb830','#3b8fff','#c43bff','#ff6b3b','#3bfff0','#ff3baa','#b8ff3b','#fff03b'];
+let selColor=COLORS[0];
+let tags=[];
+let activeGenre='all';
+let viewId=null;
+
+const LOAD_KEY='pr_prompts';
+const GENRE_KEY='pr_genres';
+
+let genres=JSON.parse(localStorage.getItem(GENRE_KEY)||'null')||[
+  {id:'reggaeton',name:'Reggaeton',color:'#ff3b3b'},
+  {id:'trap',name:'Trap / Hip-Hop',color:'#3b8fff'},
+  {id:'cumbia',name:'Cumbia / Salsa',color:'#ffb830'},
+  {id:'electronic',name:'Electrónica',color:'#c43bff'},
+  {id:'rock',name:'Rock / Metal',color:'#ff6b3b'},
+  {id:'pop',name:'Pop',color:'#3bfff0'},
+  {id:'jazz',name:'Jazz / Blues',color:'#39ff6e'},
+  {id:'corridos',name:'Corridos / Banda',color:'#ff3baa'},
+  {id:'ambient',name:'Ambient / Lo-fi',color:'#b8ff3b'},
+];
+
+let prompts=JSON.parse(localStorage.getItem(LOAD_KEY)||'null')||[
+  {id:'p1',genreId:'reggaeton',title:'Reggaeton oscuro nocturno',
+   prompt:'Dark reggaeton, heavy 808 bass, dembow rhythm 90 BPM, atmospheric pads, trap hi-hats, moody synths, male vocalist with auto-tune, urban night vibes. References: Bad Bunny "Un Verano Sin Ti" era, dark melancholic energy, reverb-heavy production.',
+   bpm:'90',key:'Dm',tags:['oscuro','808','dembow','urbano'],date:'2024-01-15'},
+  {id:'p2',genreId:'trap',title:'Trap melódico latino',
+   prompt:'Latin trap, melodic trap, 808 slides, crispy hi-hats, emotional piano melody, Spanish lyrics, slow 140 BPM, reverb-heavy vocals, floating synths. Drake meets Jhay Cortez production style. Moody, introspective, late night feel.',
+   bpm:'140',key:'Am',tags:['melódico','piano','emocional','latino'],date:'2024-01-20'},
+  {id:'p3',genreId:'cumbia',title:'Cumbia futurista digital',
+   prompt:'Modern cumbia, electronic percussion, traditional accordion samples, 4/4 groove 110 BPM, synthesized marimba, driving bass line, danceable, festive but modern production. Cumbia villera meets electronic music. Crowd energy, festival vibe.',
+   bpm:'110',key:'G',tags:['cumbia','electrónica','bailable'],date:'2024-02-01'},
+  {id:'p4',genreId:'ambient',title:'Lo-fi estudio medianoche',
+   prompt:'Lo-fi hip hop, warm vinyl crackle, jazzy piano chords, soft boom bap drums 75 BPM, upright bass, cozy atmosphere, late night studio session vibes, relaxed and focused, mellow trumpet samples, rain sounds in background.',
+   bpm:'75',key:'Fmaj7',tags:['lo-fi','jazz','estudio','relajado'],date:'2024-02-10'},
+  {id:'p5',genreId:'rock',title:'Metal progresivo instrumental',
+   prompt:'Progressive metal, complex time signatures 7/8 and 4/4, dual guitar harmonies, technical drumming, heavy downtuned riffs, Djent-influenced palm muting, ambient interludes, no vocals, cinematic build-ups. Influences: Periphery, Meshuggah.',
+   bpm:'140',key:'Bm',tags:['metal','progresivo','instrumental','djent'],date:'2024-02-15'},
+];
+
+function uid(){return 'p'+Date.now()+Math.random().toString(36).slice(2,5);}
+function gid(){return 'g'+Date.now()+Math.random().toString(36).slice(2,5);}
+
+function save(){
+  localStorage.setItem(LOAD_KEY,JSON.stringify(prompts));
+  localStorage.setItem(GENRE_KEY,JSON.stringify(genres));
+}
+
+function getG(id){return genres.find(g=>g.id===id);}
+
+// ── RENDER ────────────────────────────────────────
+function renderSidebar(){
+  const el=document.getElementById('genre-list');
+  let html=`<div class="genre-item ${activeGenre==='all'?'active':''}" onclick="setGenre('all')">
+    <div class="genre-dot" style="background:var(--green)"></div>
+    <span class="genre-name">Todos</span>
+    <span class="genre-count">${prompts.length}</span>
+  </div>`;
+  genres.forEach(g=>{
+    const n=prompts.filter(p=>p.genreId===g.id).length;
+    html+=`<div class="genre-item ${activeGenre===g.id?'active':''}" onclick="setGenre('${g.id}')">
+      <div class="genre-dot" style="background:${g.color}"></div>
+      <span class="genre-name">${g.name}</span>
+      <span class="genre-count">${n}</span>
+    </div>`;
+  });
+  el.innerHTML=html;
+}
+
+function setGenre(id){
+  activeGenre=id;
+  if(id==='all'){
+    document.getElementById('panel-title').textContent='TODOS LOS PROMPTS';
+    document.getElementById('panel-comment').textContent='// todos los géneros';
+  } else {
+    const g=getG(id);
+    document.getElementById('panel-title').textContent=g?g.name.toUpperCase():id.toUpperCase();
+    document.getElementById('panel-comment').textContent='// '+( g?g.name.toLowerCase():'género' );
+  }
+  renderSidebar();
+  renderCards();
+}
+
+function renderCards(){
+  const q=document.getElementById('search-input').value.toLowerCase();
+  let list=prompts.filter(p=>{
+    if(activeGenre!=='all'&&p.genreId!==activeGenre)return false;
+    if(q)return p.title.toLowerCase().includes(q)||p.prompt.toLowerCase().includes(q)||(p.tags||[]).some(t=>t.includes(q));
+    return true;
+  });
+
+  document.getElementById('stat-total').textContent=prompts.length;
+  document.getElementById('stat-filtered').textContent=list.length;
+  document.getElementById('h-prompts').textContent=prompts.length;
+  document.getElementById('h-genres').textContent=genres.length;
+
+  const grid=document.getElementById('prompt-grid');
+  if(!list.length){
+    grid.innerHTML=`<div class="empty-state">
+      <div class="empty-icon">◎</div>
+      <div class="empty-label">Sin prompts en este género</div>
+      <div class="empty-sub">// Crea el primero con el botón + Nuevo Prompt</div>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML=list.map(p=>{
+    const g=getG(p.genreId);
+    const c=g?g.color:'var(--green)';
+    const bg=c+'18';
+    const tagsHtml=(p.tags||[]).slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('');
+    return `<div class="prompt-card" style="--card-color:${c}" onclick="viewPrompt('${p.id}')">
+      <div class="card-top">
+        <div class="card-title">${p.title}</div>
+        ${g?`<span class="card-badge" style="background:${bg};color:${c};border-color:${c}44">${g.name}</span>`:''}
+      </div>
+      <div class="card-prompt">${p.prompt}</div>
+      <div class="card-footer">
+        <div class="card-tags">${tagsHtml}${p.bpm?`<span class="tag">${p.bpm}bpm</span>`:''}</div>
+        <button class="card-copy-btn" onclick="event.stopPropagation();qcopy('${p.id}')" title="Copiar">⎘</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── VIEW ──────────────────────────────────────────
+function viewPrompt(id){
+  const p=prompts.find(x=>x.id===id);
+  if(!p)return;
+  viewId=id;
+  const g=getG(p.genreId);
+  const c=g?g.color:'var(--green)';
+  document.getElementById('v-title').textContent=p.title;
+  let meta='';
+  if(g)meta+=`<span class="vtag" style="border-color:${c};color:${c}">${g.name}</span>`;
+  if(p.bpm)meta+=`<span class="vtag">${p.bpm} BPM</span>`;
+  if(p.key)meta+=`<span class="vtag">${p.key}</span>`;
+  (p.tags||[]).forEach(t=>meta+=`<span class="vtag">${t}</span>`);
+  document.getElementById('v-tags').innerHTML=meta;
+  document.getElementById('v-prompt').textContent=p.prompt;
+  document.getElementById('view-modal').classList.add('open');
+}
+
+function copySuno(){
+  if(!viewId)return;
+  const p=prompts.find(x=>x.id===viewId);
+  if(p){navigator.clipboard.writeText(p.prompt).catch(()=>{});}
+  toast('✓ PROMPT COPIADO PARA SUNO');
+}
+
+function qcopy(id){
+  const p=prompts.find(x=>x.id===id);
+  if(p){navigator.clipboard.writeText(p.prompt).catch(()=>{});}
+  toast('✓ COPIADO');
+}
+
+function deletePrompt(){
+  prompts=prompts.filter(p=>p.id!==viewId);
+  save();closeModal('view-modal');renderSidebar();renderCards();
+  toast('Prompt eliminado');
+}
+
+// ── PROMPT FORM ───────────────────────────────────
+function openPromptModal(){
+  tags=[];
+  document.getElementById('p-title').value='';
+  document.getElementById('p-prompt').value='';
+  document.getElementById('p-bpm').value='';
+  document.getElementById('p-key').value='';
+  document.getElementById('tag-in').value='';
+  document.getElementById('tags-wrap').querySelectorAll('.ftag').forEach(e=>e.remove());
+  const sel=document.getElementById('p-genre');
+  sel.innerHTML=genres.map(g=>`<option value="${g.id}">${g.name}</option>`).join('');
+  if(activeGenre!=='all')sel.value=activeGenre;
+  document.getElementById('prompt-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('p-title').focus(),100);
+}
+
+function handleTag(e){
+  if(e.key==='Enter'||e.key===','){
+    e.preventDefault();
+    const v=e.target.value.trim().replace(/,$/,'');
+    if(v&&!tags.includes(v)){tags.push(v);addTagEl(v);e.target.value='';}
+  }
+  if(e.key==='Backspace'&&!e.target.value&&tags.length){
+    const last=tags.pop();
+    document.querySelector(`.ftag[data-v="${last}"]`)?.remove();
+  }
+}
+
+function addTagEl(v){
+  const d=document.createElement('div');
+  d.className='ftag';d.setAttribute('data-v',v);
+  d.innerHTML=`${v}<button onclick="rmTag('${v}',this)">✕</button>`;
+  document.getElementById('tags-wrap').insertBefore(d,document.getElementById('tag-in'));
+}
+
+function rmTag(v,btn){tags=tags.filter(t=>t!==v);btn.closest('.ftag').remove();}
+
+function savePrompt(){
+  const t=document.getElementById('p-title').value.trim();
+  const pr=document.getElementById('p-prompt').value.trim();
+  if(!t||!pr){toast('! Título y prompt requeridos');return;}
+  prompts.unshift({id:uid(),genreId:document.getElementById('p-genre').value,title:t,prompt:pr,
+    bpm:document.getElementById('p-bpm').value.trim(),key:document.getElementById('p-key').value.trim(),
+    tags:[...tags],date:new Date().toISOString().slice(0,10)});
+  save();closeModal('prompt-modal');renderSidebar();renderCards();
+  toast('✓ PROMPT GUARDADO');
+}
+
+// ── GENRE FORM ────────────────────────────────────
+function openGenreModal(){
+  document.getElementById('g-name').value='';
+  selColor=COLORS[0];
+  renderColors();
+  document.getElementById('genre-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('g-name').focus(),100);
+}
+
+function renderColors(){
+  document.getElementById('color-grid').innerHTML=COLORS.map(c=>
+    `<div class="cswatch ${c===selColor?'active':''}" style="background:${c}" onclick="pickColor('${c}')"></div>`
+  ).join('');
+}
+
+function pickColor(c){selColor=c;renderColors();}
+
+function saveGenre(){
+  const n=document.getElementById('g-name').value.trim();
+  if(!n){toast('! Nombre requerido');return;}
+  genres.push({id:gid(),name:n,color:selColor});
+  save();closeModal('genre-modal');renderSidebar();renderCards();
+  toast('✓ GÉNERO CREADO');
+}
+
+// ── UTILS ─────────────────────────────────────────
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+
+document.querySelectorAll('.overlay').forEach(o=>{
+  o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');});
+});
+
+let toastT;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('show');
+  clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),2500);
+}
+
+// ── INIT ──────────────────────────────────────────
+renderSidebar();
+renderCards();
+</script>
+</body>
+</html>
